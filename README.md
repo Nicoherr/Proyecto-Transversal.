@@ -11,7 +11,6 @@ Sistema de gestión de compra/venta de productos con arquitectura de microservic
 ## 🛠️ Tecnologías
 - **Backend:** Spring Boot, Spring Cloud (Eureka, Gateway)
 - **Base de datos:** MySQL
-- **Frontend:** HTML, CSS, JavaScript
 - **Control de versiones:** GitHub
 
 ## 🏗️ Microservicios (10+)
