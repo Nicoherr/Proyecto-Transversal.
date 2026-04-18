@@ -1,0 +1,34 @@
+package com.marketplace.notificacion.model;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+@Entity
+@Table(name = "notificacion")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class notificacion {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+
+    @NotBlank(message = "El asunto deve estar descrito")
+    @Column(nullable = false)
+    private String asunto;
+
+
+    @NotBlank(message = "El mensaje no puede estar vacio")
+    @Column(nullable = false)
+    private String mensaje;
+
+
+    @NotBlank(message = "La fecha deve ser valida")
+    @Column(nullable = false)
+    private String fecha;
+
+}
