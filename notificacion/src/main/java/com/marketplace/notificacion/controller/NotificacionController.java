@@ -63,7 +63,7 @@ public class NotificacionController {
     }
 
     //DELETE
-    @DeleteMapping("/{id}")
+
     public  ResponseEntity<?> eliminar(@PathVariable Integer id){
         try{
             notificacionService.delete(id);
