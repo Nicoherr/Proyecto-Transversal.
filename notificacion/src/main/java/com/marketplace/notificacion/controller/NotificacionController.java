@@ -22,21 +22,19 @@ public class NotificacionController {
         Notificacion nuevo = notificacionService.save(notificacion);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevo);
     }
-
-
     //READ
-    //USAR TRY/CATCH PARA CUANDO NO HAY UN ID
+    //BUSCAR
     @GetMapping("/{id}")
     public ResponseEntity<Notificacion> buscar(@PathVariable Integer id){
         try{
-            Notificacion notificacion = notificacionService.findById(id);
+            Notificacion notificacion = notificacionService.findById(id.longValue());
             return ResponseEntity.ok(notificacion);
         } catch (Exception e){
             return ResponseEntity.notFound().build();
         }
 
     }
-
+    //LISTAR
     @GetMapping
     public ResponseEntity<List<Notificacion>> listar() {
         List<Notificacion> notificaciones = notificacionService.findAll();
@@ -45,12 +43,41 @@ public class NotificacionController {
         }
         return ResponseEntity.ok(notificaciones);
     }
+    //ELIMINAR
+    @DeleteMapping
+    public ResponseEntity<?> eliminarTodos() {
+        notificacionService.deleteAll();
+        return ResponseEntity.noContent().build();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     //UPDATE
     @PutMapping("/{id}")
     public ResponseEntity<Notificacion> actualizar(@PathVariable Integer id, @RequestBody Notificacion notificacion){
         try{
-            Notificacion not = notificacionService.findById(id);
+            Notificacion not = notificacionService.findById(id.longValue());
             not.setId(notificacion.getId());
             not.setAsunto(notificacion.getAsunto());
             not.setMensaje(notificacion.getMensaje());
@@ -61,23 +88,5 @@ public class NotificacionController {
             return ResponseEntity.notFound().build();
         }
     }
-
-    //DELETE
-
-    public  ResponseEntity<?> eliminar(@PathVariable Integer id){
-        try{
-            notificacionService.delete(id);
-            return ResponseEntity.noContent().build();
-        }catch (Exception e){
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @DeleteMapping
-    public ResponseEntity<?> eliminarTodos() {
-        notificacionService.deleteAll();
-        return ResponseEntity.noContent().build();
-    }
-
 
 }

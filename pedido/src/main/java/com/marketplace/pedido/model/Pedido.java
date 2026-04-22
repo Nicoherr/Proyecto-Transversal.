@@ -17,15 +17,15 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotBlank(message = "La fecha es obligatoria")
+    @NotBlank(message = "Ingresa el nombre del producto")
     @Column(nullable = false)
-    private String fecha;
+    private String nomProducto;
 
-    @NotNull(message = "El total es obligatorio")
+    @NotBlank(message = "Deves especificar el tipo de producto")
     @Column(nullable = false)
-    private int total;
+    private String tipoProducto;
 
-    @NotBlank(message = "El estado es obligatorio")
+    @NotBlank(message = "El precio es obligatorio")
     @Column(nullable = false)
-    private String estado;
+    private int precio;
 }

@@ -14,4 +14,7 @@ public class Valoracion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Column
+    private int numEstrella;
 }

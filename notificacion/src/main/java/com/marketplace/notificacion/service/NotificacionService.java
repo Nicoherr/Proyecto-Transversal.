@@ -19,24 +19,15 @@ public class NotificacionService{
     public Notificacion save(Notificacion notificacion){
         return notificacionRepository.save(notificacion);
     }
-
-
-
+    //BUSCAR POR ID
+    public Notificacion findById(Long id){
+        return notificacionRepository.findById(id).get();
+    }
     //READ /findById(), /findAll(), /findAllById(), /existById(), /count().
     public List<Notificacion> findAll(){
         return notificacionRepository.findAll();
     }
-    public Notificacion findById(long id){
-        return notificacionRepository.findById(id).get();
-    }
-
-
-
-
     //DELETE /deleteById(), /delete(), /deleteAll().
-    public void delete(long id){
-        notificacionRepository.deleteById(id);
-    }
 
     public void deleteAll(){
         notificacionRepository.deleteAll();

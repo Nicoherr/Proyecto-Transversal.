@@ -21,11 +21,6 @@ public class PedidoController {
     @GetMapping
 
 
-    //UPDATE
-    @PutMapping("/{id}")
 
-
-    //DELETE
-    @DeleteMapping("/{id}")
     @DeleteMapping
 }

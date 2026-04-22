@@ -1,6 +1,7 @@
 package com.marketplace.reporte.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,13 +18,21 @@ public class Reporte {
 
 
     @Column(nullable = false)
-    private String concepto;
+    @NotBlank(message = "Ingresa un texto valido")
+    private String tipo;
 
 
     @Column(nullable = false)
-    private String valor;
+    @NotBlank(message = "Ingresa un texto valido")
+    private String descripcion;
 
 
     @Column(nullable = false)
+    @NotBlank(message = "Ingresa un texto valido")
     private String fecha;
+
+    @Column(nullable = false)
+    @NotBlank(message = "Ingresa un texto valido")
+    private String estado;
+
 }
