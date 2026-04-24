@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "reporte")
 @Data
@@ -16,23 +18,19 @@ public class Reporte {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-
-    @Column(nullable = false)
     @NotBlank(message = "Ingresa un texto valido")
+    @Column(nullable = false)
     private String tipo;
 
-
-    @Column(nullable = false)
     @NotBlank(message = "Ingresa un texto valido")
+    @Column(length = 512)
     private String descripcion;
 
+    @Column()
+    private Date fecha;
 
+    @NotBlank(message = "Indicar el estado del reporte")
     @Column(nullable = false)
-    @NotBlank(message = "Ingresa un texto valido")
-    private String fecha;
-
-    @Column(nullable = false)
-    @NotBlank(message = "Ingresa un texto valido")
-    private String estado;
+    private Boolean estado;
 
 }

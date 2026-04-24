@@ -5,6 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Date;
+
 @Entity
 @Table(name = "notificacion")
 @Data
@@ -22,12 +25,11 @@ public class Notificacion {
 
 
     @NotBlank(message = "El mensaje no puede estar vacio")
-    @Column(nullable = false)
+    @Column(length = 512)
     private String mensaje;
 
 
-    @NotBlank(message = "La fecha deve ser valida")
-    @Column(nullable = false)
-    private String fecha;
+    @Column()
+    private Date fecha;
 
 }

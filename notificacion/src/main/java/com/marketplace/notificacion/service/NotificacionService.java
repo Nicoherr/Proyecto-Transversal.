@@ -20,7 +20,7 @@ public class NotificacionService{
     public List<Notificacion> findAll(){
         return notificacionRepository.findAll();
     }
-    public void deleteAll(){
+    public void delete(){
         notificacionRepository.deleteAll();
     }
 }

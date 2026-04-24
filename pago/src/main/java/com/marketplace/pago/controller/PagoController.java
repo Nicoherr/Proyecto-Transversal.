@@ -16,16 +16,13 @@ public class PagoController {
     @Autowired
     private PagoService pagoService;
 
-    //CREATE
+
     @PostMapping
     public ResponseEntity<Pago> guardar(@RequestBody Pago pago){
         Pago nuevo = pagoService.save(pago);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevo);
     }
 
-    //READ
-    //USAR TRY/CATCH PARA CUANDO NO HAY UN ID
-    //LISTAR
     @GetMapping
     public ResponseEntity<List<Pago>> listar(){
         List<Pago> pagos = pagoService.findAll();
@@ -36,7 +33,6 @@ public class PagoController {
         return ResponseEntity.ok(pagos);
     }
 
-    //BUSCAR
     @GetMapping
     public Pago buscarPorId(Long id){
         return pagoService.findById(id);

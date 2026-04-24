@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 
 @Entity
 @Table(name = "pago")
@@ -18,19 +19,15 @@ public class Pago {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column
-    private int monto;
-
     @NotBlank(message = "Escribe el metodo de pago")
-    @Column
+    @Column()
     private String metodoPago;
 
     @NotBlank(message = "Ingresa un comprobante valido")
-    @Column
+    @Column()
     private String comprobante;
 
-    @NotBlank(message = "Ingresa una fecha valida")
-    @Column
-    private String fecha;
+    @Column()
+    private Date fecha;
 
 }

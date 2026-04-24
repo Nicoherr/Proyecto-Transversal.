@@ -45,8 +45,8 @@ public class NotificacionController {
     }
     //ELIMINAR
     @DeleteMapping
-    public ResponseEntity<?> eliminarTodos() {
-        notificacionService.deleteAll();
+    public ResponseEntity<?> eliminar() {
+        notificacionService.delete();
         return ResponseEntity.noContent().build();
     }
 

@@ -27,7 +27,7 @@ public class ValoracionService {
         return valoracionRepository.findAll();
     }
     //DELETE
-    public void deleteById(Long id){
+    public void delete(){
         valoracionRepository.deleteById(id);
     }
 

@@ -25,7 +25,7 @@ public class Pedido {
     @Column(nullable = false)
     private String tipoProducto;
 
-    @NotBlank(message = "El precio es obligatorio")
+    @NotNull(message = "El precio es obligatorio")
     @Column(nullable = false)
     private int precio;
 }
