@@ -18,14 +18,14 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="carrito" options="-parameters" />
       <module name="inventario" options="-parameters" />
-      <module name="notificacion" options="-parameters" />
-      <module name="pago" options="-parameters" />
-      <module name="pedido" options="-parameters" />
-      <module name="producto" options="-parameters" />
-      <module name="reporte" options="-parameters" />
+      <module name="notificacion" options="" />
+      <module name="pago" options="" />
+      <module name="pedido" options="" />
+      <module name="producto" options="" />
+      <module name="reporte" options="" />
       <module name="usuarios" options="-parameters" />
-      <module name="valoracion" options="-parameters" />
-      <module name="vendedor" options="-parameters" />
+      <module name="valoracion" options="" />
+      <module name="vendedor" options="" />
     </option>
   </component>
 </project>
