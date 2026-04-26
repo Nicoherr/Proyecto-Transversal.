@@ -8,28 +8,28 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-@Entity
-@Table(name = "notificacion")
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Entity //JPA crea la tabla en la BD automaticamente.
+@Table(name = "notificacion") //Nombre de la Tabla en la Base de datos
+@Data //Getter and Setter
+@AllArgsConstructor //Constructores con parametros
+@NoArgsConstructor //Constructores sin parametros
 public class Notificacion {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @Id// este campo es el ID único de cada registro
+    @GeneratedValue(strategy = GenerationType.IDENTITY)// el ID se genera solo, no lo ingresa el usuario
+    private Long id;
 
 
     @NotBlank(message = "El asunto deve estar descrito")
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)//Validamos que el dato no sea nulo en la Base de Datos.
     private String asunto;
 
 
     @NotBlank(message = "El mensaje no puede estar vacio")
-    @Column(length = 512)
+    @Column(nullable = false, length = 512)//Validamos que el dato no sea nulo en la Base de Datos.
     private String mensaje;
 
 
-    @Column()
+    @Column(nullable = false)//Validamos que el dato no sea nulo en la Base de Datos.
     private Date fecha;
 
 }

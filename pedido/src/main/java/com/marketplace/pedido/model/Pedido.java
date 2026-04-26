@@ -7,25 +7,25 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Table(name = "pedido")
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Entity //JPA crea la tabla en la BD automaticamente.
+@Table(name = "pedido") //Nombre de la Tabla en la Base de datos
+@Data //Getter and Setter
+@AllArgsConstructor //Constructores con parametros
+@NoArgsConstructor //Constructores sin parametros
 public class Pedido {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @Id// este campo es el ID único de cada registro
+    @GeneratedValue(strategy = GenerationType.IDENTITY)// el ID se genera solo, no lo ingresa el usuario
+    private Long id;
 
     @NotBlank(message = "Ingresa el nombre del producto")
-    @Column(nullable = false)
+    @Column(nullable = false, lenght = 200)//Validamos que el dato no sea nulo en la Base de Datos.
     private String nomProducto;
 
     @NotBlank(message = "Deves especificar el tipo de producto")
-    @Column(nullable = false)
+    @Column(nullable = false, lenght = 30)//Validamos que el dato no sea nulo en la Base de Datos.
     private String tipoProducto;
 
-    @NotNull(message = "El precio es obligatorio")
-    @Column(nullable = false)
+    @NotNull(message = "Deves ingresar el precio del producto que deseas vender")
+    @Column(nullable = false)//Validamos que el dato no sea nulo en la Base de Datos.
     private int precio;
 }

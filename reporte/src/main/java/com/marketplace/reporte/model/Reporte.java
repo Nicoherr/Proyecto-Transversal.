@@ -8,29 +8,30 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-@Entity
-@Table(name = "reporte")
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Entity //JPA crea la tabla en la BD automaticamente.
+@Table(name = "reporte") //Nombre de la Tabla en la Base de datos
+@Data //Getter and Setter
+@AllArgsConstructor //Constructores con parametros
+@NoArgsConstructor //Constructores sin parametros
 public class Reporte {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @Id// este campo es el ID único de cada registro
+    @GeneratedValue(strategy = GenerationType.IDENTITY)// el ID se genera solo, no lo ingresa el usuario
+    private Long id;
 
-    @NotBlank(message = "Ingresa un texto valido")
-    @Column(nullable = false)
+    @NotBlank(message = "Ingresa un tipo de reporte valido")
+    @Column(nullable = false, length= 100) //Validamos que el dato no sea nulo en la Base de Datos.
     private String tipo;
 
-    @NotBlank(message = "Ingresa un texto valido")
-    @Column(length = 512)
+    @NotBlank(message = "La descripcion del Reporte es obligatoria")
+    @Column(nullable = false, length = 512)//Validamos que el dato no sea nulo en la Base de Datos.
     private String descripcion;
 
-    @Column()
+    //Cuando se genera un reporte el sistema le asigna una fecha en el momento
+    @Column(nullable = false)//Validamos que el dato no sea nulo en la Base de Datos.
     private Date fecha;
 
-    @NotBlank(message = "Indicar el estado del reporte")
-    @Column(nullable = false)
+    //El sistema asigna por defecto el estado
+    @Column(nullable = false)//Validamos que el dato no sea nulo en la Base de Datos.
     private Boolean estado;
 
 }
