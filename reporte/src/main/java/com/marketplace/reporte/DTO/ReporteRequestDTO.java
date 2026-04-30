@@ -5,7 +5,7 @@ import java.util.Date;
 @Data //Getter and Setter
 @AllArgsConstructor //Constructores con parametros
 @NoArgsConstructor //Constructores sin parametros
-public class ReporteDTO {
+public class ReporteRequestDTO {
     //Devuelve datos al usuario como respuesta
     //Usamos lo mismo de la clase Reporte pero sin la notaciones JPA y sin @Entity y @Table.
     private long id = 0;

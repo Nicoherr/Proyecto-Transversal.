@@ -1,7 +1,7 @@
 package com.marketplace.pedido.controller;
 
-import com.marketplace.pedido.DTO.PedidoDTO;
-import com.marketplace.pedido.DTO.PedidoNewDTO;
+import com.marketplace.pedido.DTO.PedidoRequestDTO;
+import com.marketplace.pedido.DTO.PedidoResponseDTO;
 import com.marketplace.pedido.model.Pedido;
 import com.marketplace.pedido.service.PedidoService;
 import jakarta.validation.Valid;
@@ -20,7 +20,7 @@ public class PedidoController {
 
     //Create
     @PostMapping
-    public ResponseEntity<PedidoDTO> createPedido(@Valid @RequestBody PedidoNewDTO pedido){
+    public ResponseEntity<PedidoRequestDTO> createPedido(@Valid @RequestBody PedidoResponseDTO pedido){
         return ResponseEntity.ok(pedidoService.createPedido(pedido));
     }
     //Listar

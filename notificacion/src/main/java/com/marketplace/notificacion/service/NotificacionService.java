@@ -1,11 +1,14 @@
 package com.marketplace.notificacion.service;
 
+import com.marketplace.notificacion.DTO.NotificacionRequestDTO;
+import com.marketplace.notificacion.DTO.NotificacionResponseDTO;
 import com.marketplace.notificacion.model.Notificacion;
 import com.marketplace.notificacion.repository.NotificacionRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -26,10 +29,10 @@ public class NotificacionService{
     }
 
     //Crear
-    public NotificacionDTO createNotificacion(NotificacionNewDTO newNotificacionDTO){
+    public NotificacionResponseDTO createNotificacion(NotificacionRequestDTO newNotificacionDTO){
         Notificacion notificacion = new Notificacion(0, newNotificacionDTO.getAsunto(), newNotificacionDTO.getMensaje(), new Date());
         notificacion = notificacionRepository.save(notificacion);
-        NotificacionDTO notificacionDTO = new notificacionDTO(notificacion.getId(), notificacion.getAsunto(), notificacion.getMensaje());
+        NotificacionResponseDTO notificacionDTO = new NotificacionResponseDTO(notificacion.getId(), notificacion.getAsunto(), notificacion.getMensaje(), notificacion.getFecha());
         return notificacionDTO;
     }
 

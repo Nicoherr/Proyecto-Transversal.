@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PedidoNewDTO {
+public class PedidoResponseDTO {
         //Recibe los datos del usuario al crear un Reporte.
         //Usamos los campos de la clase reporte pero solo los que deve llenar un usuario por la Api
         @NotBlank(message = "Ingresa el nombre del producto")

@@ -2,7 +2,7 @@ package com.marketplace.pedido.DTO;
 @Data //Getter and Setter
 @AllArgsConstructor //Constructores con parametros
 @NoArgsConstructor //Constructores sin parametros
-public class PedidoDTO {
+public class PedidoRequestDTO {
     //Devuelve datos al usuario como respuesta
     //Usamos lo mismo de la clase Reporte pero sin la notaciones JPA y sin @Entity y @Table.
     private Long id = 0;

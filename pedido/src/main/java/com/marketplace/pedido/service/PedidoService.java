@@ -1,11 +1,10 @@
 package com.marketplace.pedido.service;
 
-import com.marketplace.pedido.DTO.PedidoDTO;
-import com.marketplace.pedido.DTO.PedidoNewDTO;
+import com.marketplace.pedido.DTO.PedidoRequestDTO;
+import com.marketplace.pedido.DTO.PedidoResponseDTO;
 import com.marketplace.pedido.model.Pedido;
 import com.marketplace.pedido.repository.PedidoRepository;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +23,10 @@ public class PedidoService {
     }
 
     //Crear
-    public PedidoDTO createPedido(PedidoNewDTO newPedidoDTO){
+    public PedidoRequestDTO createPedido(PedidoResponseDTO newPedidoDTO){
         Pedido pedido = new Pedido(0,newPedidoDTO.getNomProducto(), newPedidoDTO.getTipoProducto(), newPedidoDTO.getPrecio());
         pedido = pedidoRepository.save(pedido);
-        PedidoDTO pedidoDTO = new PedidoDTO(pedido.getId(), pedido.getNomProducto, pedido.getTipoProducto(), pedido.getPrecio());
+        PedidoRequestDTO pedidoDTO = new PedidoRequestDTO(pedido.getId(), pedido.getNomProducto, pedido.getTipoProducto(), pedido.getPrecio());
         return pedidoDTO;
     }
 
