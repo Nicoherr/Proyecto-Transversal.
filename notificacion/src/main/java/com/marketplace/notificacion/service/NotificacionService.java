@@ -5,27 +5,34 @@ import com.marketplace.notificacion.DTO.NotificacionResponseDTO;
 import com.marketplace.notificacion.model.Notificacion;
 import com.marketplace.notificacion.repository.NotificacionRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
-@Transactional
+@RequiredArgsConstructor
 public class NotificacionService{
     @Autowired
-    private NotificacionRepository notificacionRepository;
+    private final NotificacionRepository notificacionRepository;
+
+    private NotificacionResponseDTO makeToNotificacionResponseDTO(Notificacion notificacion){
+        return new NotificacionResponseDTO(notificacion.getId(), notificacion.getAsunto(), notificacion.getMensaje(), notificacion.getFecha());
+    }
 
     //Listar
-    public List<Notificacion> getNotificaciones(){
-        return notificacionRepository.findAll();
+    public List<NotificacionResponseDTO> findAllNotificaciones(){
+        return notificacionRepository.findAll().stream().map(this::makeToNotificacionResponseDTO).collect(Collectors.toList());
     }
 
     //Buscar
-    public Notificacion getNotificacion(long id){
-        return notificacionRepository.findById(id).get();
+    public NotificacionRequestDTO findNotificacionesById(long id) {
+        Notificacion notificacion = notificacionRepository.findById(id).get();
+        return new NotificacionRequestDTO(notificacion.getMensaje());
     }
 
     //Crear

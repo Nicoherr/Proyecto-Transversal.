@@ -1,5 +1,7 @@
 package com.marketplace.pago.service;
 
+import com.marketplace.pago.DTO.PagoRequestDTO;
+import com.marketplace.pago.DTO.PagoResponseDTO;
 import com.marketplace.pago.model.Pago;
 import com.marketplace.pago.repository.PagoRepository;
 import jakarta.transaction.Transactional;
@@ -7,7 +9,9 @@ import org.apache.catalina.startup.ContextRuleSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -16,22 +20,28 @@ public class PagoService {
     @Autowired
     private PagoRepository pagoRepository;
 
-    //Listar
-    public List<Pago> getPago(){
-        return pagoRepository.findAll();
+    private PagoResponseDTO makeToPagoResponseDTO(Pago pago){
+        return new PagoResponseDTO(pago.getId(), pago.getMetodoPago(), pago.getComprobante(), pago.getFecha());
     }
 
-    //Crear
-    public PagoDTO createPago(PagoNewDTO newPagoDTO){
-        Pago pago = new Pago(0, newPagodto.getMetodoPago(), newPagoDTO.getComprobante(), new Date());
-        pago = pagoRepository.save(pago);
-        PagoDTO pagoDTO = new PagoDTO(pago.getId(), pago.getMetodopago());
-        return pagoDTO;
+    //Listar
+    public List<PagoResponseDTO> findAllPagos(){
+        return pagoRepository.findAll().stream().map(this::makeToPagoResponseDTO).collect(Collectors.toList());
     }
 
     //Buscar
-    public Pago getPago(long id){
-        return pagoRepository.findById(id).get();
+    public PagoRequestDTO findPagosById(long id) {
+        Pago pago = pagoRepository.findById(id).get();
+        return new PagoRequestDTO(pago.getMetodoPago());
     }
+
+    //Crear
+    public PagoResponseDTO createPago(PagoRequestDTO newPagoDTO){
+        Pago pago = new Pago(0, newPagoDTO.getMetodoPago(), newPagoDTO.getComprobante(), newPagoDTO.getFecha());
+        pago = pagoRepository.save(pago);
+        PagoResponseDTO pagoDTO = new PagoResponseDTO(pago.getId(), pago.getMetodoPago(), pago.getComprobante(), pago.getFecha());
+        return pagoDTO;
+    }
+
 
 }

@@ -2,6 +2,7 @@ package com.marketplace.pedido.DTO;
 
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,8 +11,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PedidoResponseDTO {
-        //Recibe los datos del usuario al crear un Reporte.
+        //Devuelve datos al usuario como respuesta
         //Usamos los campos de la clase reporte pero solo los que deve llenar un usuario por la Api
+
+        private Long id = 0;
+
         @NotBlank(message = "Ingresa el nombre del producto")
         private String nomProducto;
 
@@ -20,6 +24,7 @@ public class PedidoResponseDTO {
 
         @NotNull(message = "Deves ingresar el precio del producto que deseas vender")
         private int precio;
+
 
 
 }

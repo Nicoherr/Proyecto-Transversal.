@@ -1,12 +1,17 @@
 package com.marketplace.pedido.DTO;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Data //Getter and Setter
 @AllArgsConstructor //Constructores con parametros
 @NoArgsConstructor //Constructores sin parametros
 public class PedidoRequestDTO {
-    //Devuelve datos al usuario como respuesta
+    //Recibe los datos del usuario al crear un Reporte.
     //Usamos lo mismo de la clase Reporte pero sin la notaciones JPA y sin @Entity y @Table.
-    private Long id = 0;
-
     @NotBlank(message = "Ingresa el nombre del producto")
     private String nomProducto;
 

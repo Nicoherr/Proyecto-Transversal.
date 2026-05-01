@@ -1,7 +1,10 @@
 package com.marketplace.notificacion.controller;
 
+import com.marketplace.notificacion.DTO.NotificacionRequestDTO;
+import com.marketplace.notificacion.DTO.NotificacionResponseDTO;
 import com.marketplace.notificacion.model.Notificacion;
 import com.marketplace.notificacion.service.NotificacionService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,16 +21,16 @@ public class NotificacionController {
 
     //CREATE
     @PostMapping
-    public ResponseEntity<Notificacion> guardar(@RequestBody Notificacion notificacion){
-        Notificacion nuevo = notificacionService.save(notificacion);
+    public ResponseEntity<NotificacionResponseDTO> guardar(@Valid @RequestBody NotificacionRequestDTO notificacionDTO){
+        NotificacionResponseDTO nuevo = notificacionService.createNotificacion(notificacionDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevo);
     }
     //READ
     //BUSCAR
     @GetMapping("/{id}")
-    public ResponseEntity<Notificacion> buscar(@PathVariable Long id){
+    public ResponseEntity<NotificacionRequestDTO> buscar(@PathVariable Long id){
         try{
-            Notificacion notificacion = notificacionService.findById(id);
+            NotificacionRequestDTO notificacion = notificacionService.findNotificacionesById(id);
             return ResponseEntity.ok(notificacion);
         } catch (Exception e){
             return ResponseEntity.notFound().build();
@@ -36,8 +39,8 @@ public class NotificacionController {
     }
     //LISTAR
     @GetMapping
-    public ResponseEntity<List<Notificacion>> listar() {
-        List<Notificacion> notificaciones = notificacionService.findAll();
+    public ResponseEntity<List<NotificacionResponseDTO>> listar() {
+        List<NotificacionResponseDTO> notificaciones = notificacionService.findAllNotificaciones();
         if (notificaciones.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
@@ -46,7 +49,7 @@ public class NotificacionController {
     //ELIMINAR
     @DeleteMapping("/{id}")
     public ResponseEntity<?> eliminar(@PathVariable long id) {
-        notificacionService.delete(id);
+        notificacionService.deleteNotificacion(id);
         return ResponseEntity.noContent().build();
     }
 

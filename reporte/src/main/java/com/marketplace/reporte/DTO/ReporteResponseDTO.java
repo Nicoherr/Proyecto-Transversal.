@@ -1,13 +1,29 @@
 package com.marketplace.reporte.DTO;
+
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.Date;
+
 @Data //Getter and Setter
 @AllArgsConstructor //Constructores con parametros
 @NoArgsConstructor //Constructores sin parametros
 public class ReporteResponseDTO {
-    //Recibe los datos del usuario al crear un Reporte.
-    //Usamos los campos de la clase reporte pero solo los que deve llenar un usuario por la Api
+    //Devuelve datos al usuario como respuesta
+    //Usamos lo mismo de la clase Reporte pero sin la notaciones JPA y sin @Entity y @Table.
+    private long id = 0;
+
     @NotBlank(message = "Ingresa un tipo de reporte valido")
     private String tipo;
 
     @NotBlank(message = "La descripcion del Reporte es obligatoria")
     private String descripcion;
-}
+
+    //Cuando se genera un reporte el sistema le asigna una fecha en el momento
+    private Date fecha;
+
+    //El sistema asigna por defecto el estado
+    private Boolean estado;
+    }
