@@ -1,14 +1,15 @@
 package com.marketplace.producto.service;
-
 import com.marketplace.producto.dto.ProductoRequestDTO;
 import com.marketplace.producto.dto.ProductoResponseDTO;
 import com.marketplace.producto.model.Producto;
 import com.marketplace.producto.repository.ProductoRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class ProductoService {
 
@@ -19,26 +20,38 @@ public class ProductoService {
     }
 
     public ProductoResponseDTO crear(ProductoRequestDTO dto) {
+        log.info("Intentando registrar un nuevo producto '{}' (Precio: {}) para el vendedor ID: {}",
+                dto.getNombre(), dto.getPrecio(), dto.getVendedorId());
+
         Producto producto = new Producto();
         producto.setNombre(dto.getNombre());
         producto.setDescripcion(dto.getDescripcion());
         producto.setPrecio(dto.getPrecio());
         producto.setStock(dto.getStock());
         producto.setVendedorId(dto.getVendedorId());
-        // 'activo' ya es true por defecto en tu modelo
+        // El campo 'activo' ya se asigna a true por defecto en tu modelo
 
-        return convertirAResponse(repository.save(producto));
+        Producto guardado = repository.save(producto);
+
+        log.info("Producto creado exitosamente con ID: {}", guardado.getId());
+        return convertirAResponse(guardado);
     }
 
     public List<ProductoResponseDTO> listar() {
+        log.info("Listando todos los productos del catálogo");
+
         return repository.findAll().stream()
                 .map(this::convertirAResponse)
                 .collect(Collectors.toList());
     }
 
     public ProductoResponseDTO obtener(Long id) {
+        log.info("Buscando producto con ID: {}", id);
+
         Producto p = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado con id: " + id));
+
+        log.info("Producto '{}' encontrado correctamente", p.getNombre());
         return convertirAResponse(p);
     }
 
