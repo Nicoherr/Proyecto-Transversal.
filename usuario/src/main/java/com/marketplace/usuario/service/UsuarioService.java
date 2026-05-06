@@ -1,13 +1,16 @@
 package com.marketplace.usuario.service;
+
 import com.marketplace.usuario.dto.UsuarioRequestDTO;
 import com.marketplace.usuario.dto.UsuarioResponseDTO;
 import com.marketplace.usuario.model.Usuario;
 import com.marketplace.usuario.repository.UsuarioRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j // Anotación para los logs
 @Service
 public class UsuarioService {
 
@@ -18,61 +21,54 @@ public class UsuarioService {
     }
 
     public UsuarioResponseDTO crear(UsuarioRequestDTO dto) {
-        // 1. Verificamos si el email ya existe
-        if (repository.findByEmail(dto.getEmail()).isPresent()) {
-            throw new RuntimeException("El email ya se encuentra registrado");
-        }
+        // Log de información indicando qué estamos haciendo
+        log.info("Intentando crear un nuevo usuario con email: {}", dto.getEmail());
 
-        // 2. Convertimos DTO a Entidad
         Usuario usuario = new Usuario();
         usuario.setNombre(dto.getNombre());
         usuario.setEmail(dto.getEmail());
         usuario.setPassword(dto.getPassword());
         usuario.setRol(dto.getRol());
+        // El campo 'activo' no hace falta setearlo porque en el modelo ya le pusimos"= true"
 
-        // 3. Guardamos
         Usuario guardado = repository.save(usuario);
 
-        // 4. Devolvemos el ResponseDTO (sin la contraseña)
+        // Log de éxito con el ID generado
+        log.info("Usuario creado exitosamente con ID: {}", guardado.getId());
+
         return convertirAResponse(guardado);
     }
 
     public List<UsuarioResponseDTO> listar() {
+        log.info("Listando todos los usuarios de la base de datos");
+
         return repository.findAll().stream()
                 .map(this::convertirAResponse)
                 .collect(Collectors.toList());
     }
 
     public UsuarioResponseDTO obtener(Long id) {
-        Usuario usuario = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
-        return convertirAResponse(usuario);
+        log.info("Buscando usuario con ID: {}", id);
+
+        Usuario u = repository.findById(id)
+                .orElseThrow(() -> {
+                    // Si no se encuentra, este error será capturado y logueado por el ExceptionHandler
+                    return new RuntimeException("Usuario no encontrado con id: " + id);
+                });
+
+        log.info("Usuario encontrado correctamente con ID: {}", id);
+        return convertirAResponse(u);
     }
 
-    public UsuarioResponseDTO actualizar(Long id, UsuarioRequestDTO dto) {
-        Usuario usuario = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-
-        usuario.setNombre(dto.getNombre());
-        usuario.setEmail(dto.getEmail());
-        usuario.setRol(dto.getRol());
-        if(dto.getPassword() != null) usuario.setPassword(dto.getPassword());
-
-        return convertirAResponse(repository.save(usuario));
-    }
-
-    public void eliminar(Long id) {
-        if(!repository.existsById(id)) throw new RuntimeException("No se puede eliminar: Usuario no existe");
-        repository.deleteById(id);
-    }
-
-    // Método auxiliar para no repetir código de conversión
+    // Método para mapear el modelo al DTO de respuesta
     private UsuarioResponseDTO convertirAResponse(Usuario u) {
         UsuarioResponseDTO res = new UsuarioResponseDTO();
         res.setId(u.getId());
         res.setNombre(u.getNombre());
         res.setEmail(u.getEmail());
         res.setRol(u.getRol());
+        res.setActivo(u.isActivo());
+        // No mapeamos el password aquí por seguridad
         return res;
     }
 }
