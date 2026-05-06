@@ -29,7 +29,7 @@ public class ProductoService {
         producto.setPrecio(dto.getPrecio());
         producto.setStock(dto.getStock());
         producto.setVendedorId(dto.getVendedorId());
-        // El campo 'activo' ya se asigna a true por defecto en tu modelo
+        // El campo 'activo' ya se asigna a true por defecto en el modelo
 
         Producto guardado = repository.save(producto);
 
