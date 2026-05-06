@@ -50,7 +50,7 @@ public class NotificacionController {
 
     //ELIMINAR
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> eliminar(@PathVariable long id) {
+    public ResponseEntity<NotificacionRequestDTO> deleteNotificacion(@PathVariable long id) {
         notificacionService.deleteNotificacion(id);
         return ResponseEntity.noContent().build();
     }
