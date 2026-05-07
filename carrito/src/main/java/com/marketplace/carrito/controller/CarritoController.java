@@ -1,4 +1,5 @@
 package com.marketplace.carrito.controller;
+
 import com.marketplace.carrito.dto.*;
 import com.marketplace.carrito.service.CarritoService;
 import org.springframework.http.HttpStatus;
@@ -19,12 +20,14 @@ public class CarritoController {
 
     @PostMapping
     public ResponseEntity<CarritoResponseDTO> crear(@RequestBody CarritoRequestDTO dto) {
-        return new ResponseEntity<>(service.crearCarrito(dto), HttpStatus.CREATED);
+        // Cambiamos crearCarrito por crear
+        return new ResponseEntity<>(service.crear(dto), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<CarritoResponseDTO> obtener(@PathVariable Long id) {
-        return ResponseEntity.ok(service.obtenerCarrito(id));
+        // Cambiamos obtenerCarrito por obtener
+        return ResponseEntity.ok(service.obtener(id));
     }
 
     @PostMapping("/productos")
@@ -37,4 +40,3 @@ public class CarritoController {
         return ResponseEntity.ok(service.listarProductos(carritoId));
     }
 }
-
