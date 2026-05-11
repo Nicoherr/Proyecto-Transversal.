@@ -7,7 +7,6 @@ import java.util.Date;
 
 @Data
 public class ExceptionDTO {
-
     private int code;
     private String type;
     private String date;
@@ -20,5 +19,10 @@ public class ExceptionDTO {
         this.message = exception.getMessage();
     }
 
-
+    public ExceptionDTO(HttpStatus httpStatus, String message) {
+        this.code = httpStatus.value();
+        this.type = httpStatus.getReasonPhrase();
+        this.date = (new Date()).toString();
+        this.message = message;
+    }
 }

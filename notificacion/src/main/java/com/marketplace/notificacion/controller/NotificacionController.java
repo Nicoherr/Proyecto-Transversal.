@@ -4,6 +4,7 @@ import com.marketplace.notificacion.DTO.NotificacionResponseDTO;
 import com.marketplace.notificacion.model.Notificacion;
 import com.marketplace.notificacion.service.NotificacionService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,39 +14,29 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/notificaciones")
+@RequiredArgsConstructor
 public class NotificacionController {
 
-    @Autowired
-    private NotificacionService notificacionService;
+    private final NotificacionService notificacionService;
 
-    //CREATE
+    @GetMapping
+    public ResponseEntity<List<NotificacionResponseDTO>> getNotificaciones() {
+        return ResponseEntity.ok(notificacionService.findAllNotificaciones());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<NotificacionResponseDTO> getNotificacion(@PathVariable long id) {
+        return ResponseEntity.ok(notificacionService.findNotificacionesById(id));
+    }
+
     @PostMapping
-    public ResponseEntity<NotificacionResponseDTO> guardar(@Valid @RequestBody NotificacionRequestDTO notificacionDTO){
+    public ResponseEntity<NotificacionResponseDTO> postNotificacion(@Valid @RequestBody NotificacionRequestDTO notificacionDTO) {
         NotificacionResponseDTO nuevo = notificacionService.makeNotificacion(notificacionDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevo);
     }
 
-    //READ
-    //BUSCAR
-    @GetMapping("/{id}")
-    public ResponseEntity<NotificacionResponseDTO> buscar(@PathVariable Long id) {
-        return ResponseEntity.ok(notificacionService.findNotificacionesById(id));
-    }
-
-
-    //LISTAR
-    @GetMapping
-    public ResponseEntity<List<NotificacionResponseDTO>> listar() {
-        List<NotificacionResponseDTO> notificaciones = notificacionService.findAllNotificaciones();
-        if (notificaciones.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok(notificaciones);
-    }
-
-    //ELIMINAR
     @DeleteMapping("/{id}")
-    public ResponseEntity<NotificacionRequestDTO> deleteNotificacion(@PathVariable long id) {
+    public ResponseEntity<Void> deleteNotificacion(@PathVariable long id) {
         notificacionService.deleteNotificacion(id);
         return ResponseEntity.noContent().build();
     }
