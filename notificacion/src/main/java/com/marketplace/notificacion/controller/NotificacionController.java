@@ -28,15 +28,10 @@ public class NotificacionController {
     //READ
     //BUSCAR
     @GetMapping("/{id}")
-    public ResponseEntity<NotificacionResponseDTO> buscar(@PathVariable Long id){ // Cambiado a ResponseDTO
-        try{
-            // Cambiado a ResponseDTO para que coincida con el Service
-            NotificacionResponseDTO notificacion = notificacionService.findNotificacionesById(id);
-            return ResponseEntity.ok(notificacion);
-        } catch (Exception e){
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<NotificacionResponseDTO> buscar(@PathVariable Long id) {
+        return ResponseEntity.ok(notificacionService.findNotificacionesById(id));
     }
+
 
     //LISTAR
     @GetMapping
