@@ -44,6 +44,4 @@ public class GlobalExceptionHandler {
         ExceptionDTO exceptionDTO = new ExceptionDTO(HttpStatus.INTERNAL_SERVER_ERROR, "Error interno del servidor");
         return new ResponseEntity<>(exceptionDTO, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
-
 }

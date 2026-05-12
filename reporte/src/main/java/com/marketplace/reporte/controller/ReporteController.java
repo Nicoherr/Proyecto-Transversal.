@@ -4,6 +4,7 @@ import com.marketplace.reporte.DTO.ReporteRequestDTO;
 import com.marketplace.reporte.DTO.ReporteResponseDTO;
 import com.marketplace.reporte.service.ReporteService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,31 +14,29 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/reportes")
+@RequiredArgsConstructor
 public class ReporteController {
 
-    @Autowired
-    private ReporteService reporteService;
+    private final ReporteService reporteService;
 
-
-    //CREATE
-    @PostMapping
-    public ResponseEntity<ReporteResponseDTO> postReporte(@Valid @RequestBody ReporteRequestDTO newReporte){
-        ReporteResponseDTO reporte = reporteService.makeReporte(newReporte);
-        return ResponseEntity.status(HttpStatus.CREATED).body(reporte);
-    }
-    //BUSCAR
-    @GetMapping("/{id}")
-    public ResponseEntity<ReporteRequestDTO> getReporte(@PathVariable long id){
-        return ResponseEntity.ok(reporteService.findReportesById(id));
-    }
-    //LISTAR
     @GetMapping
     public ResponseEntity<List<ReporteResponseDTO>> getReportes() {
         return ResponseEntity.ok(reporteService.findAllReportes());
     }
-    //ELIMINAR
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ReporteResponseDTO> getReporte(@PathVariable long id) {
+        return ResponseEntity.ok(reporteService.findReportesById(id));
+    }
+
+    @PostMapping
+    public ResponseEntity<ReporteResponseDTO> postReporte(@Valid @RequestBody ReporteRequestDTO newReporte) {
+        ReporteResponseDTO reporte = reporteService.makeReporte(newReporte);
+        return ResponseEntity.status(HttpStatus.CREATED).body(reporte);
+    }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<ReporteRequestDTO> deleteReporte(@PathVariable long id) {
+    public ResponseEntity<Void> deleteReporte(@PathVariable long id) {
         reporteService.deleteReporte(id);
         return ResponseEntity.noContent().build();
     }

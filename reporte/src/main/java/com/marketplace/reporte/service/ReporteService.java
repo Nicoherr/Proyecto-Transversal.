@@ -6,6 +6,7 @@ import com.marketplace.reporte.model.Reporte;
 import com.marketplace.reporte.repository.ReporteRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,36 +16,45 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ReporteService {
 
-    @Autowired
     private final ReporteRepository reporteRepository;
 
     private ReporteResponseDTO makeToReporteResponseDTO(Reporte reporte) {
         return new ReporteResponseDTO(reporte.getId(), reporte.getTipo(), reporte.getDescripcion(), reporte.getFecha(), reporte.getEstado());
     }
-    //Listar
-    public List<ReporteResponseDTO> findAllReportes(){
-        return reporteRepository.findAll().stream().map(this::makeToReporteResponseDTO).collect(Collectors.toList());
+
+    private Reporte obtenerOFallar(long id) {
+        return reporteRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Reporte no encontrado con id: " + id));
     }
 
-    //Buscar
-    public ReporteRequestDTO findReportesById(long id) {
-        Reporte reporte = reporteRepository.findById(id).get();
-        return new ReporteRequestDTO(reporte.getTipo(),reporte.getDescripcion());
+    public List<ReporteResponseDTO> findAllReportes() {
+        log.info("Se listan todos los reportes");
+        return reporteRepository.findAll().stream()
+                .map(this::makeToReporteResponseDTO)
+                .collect(Collectors.toList());
     }
 
-    //Crear
-    public ReporteResponseDTO makeReporte(ReporteRequestDTO newReporte){
-        Reporte reporte = new Reporte(0, newReporte.getTipo(), newReporte.getDescripcion(), new Date(), true);
+    public ReporteResponseDTO findReportesById(long id) {
+        log.info("Se busca reporte con id: {}", id);
+        return makeToReporteResponseDTO(obtenerOFallar(id));
+    }
+
+    public ReporteResponseDTO makeReporte(ReporteRequestDTO newReporte) {
+        log.info("Se inicia la creación de reporte tipo: {}", newReporte.getTipo());
+        Reporte reporte = new Reporte();
+        reporte.setTipo(newReporte.getTipo());
+        reporte.setDescripcion(newReporte.getDescripcion());
+        reporte.setFecha(new Date());
+        reporte.setEstado(true);
         reporte = reporteRepository.save(reporte);
-        ReporteResponseDTO reporteDTO = new ReporteResponseDTO(reporte.getId(), reporte.getTipo(), reporte.getDescripcion(), reporte.getFecha(), reporte.getEstado());
-        return reporteDTO;
+        return makeToReporteResponseDTO(reporte);
     }
 
-    //Eliminar
     public void deleteReporte(long id) {
-        Reporte reporte = reporteRepository.findById(id).get();
-        reporteRepository.delete(reporte);
+        log.info("Se elimina reporte con id: {}", id);
+        reporteRepository.delete(obtenerOFallar(id));
     }
 }

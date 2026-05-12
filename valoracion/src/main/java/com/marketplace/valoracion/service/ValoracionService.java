@@ -6,6 +6,7 @@ import com.marketplace.valoracion.model.Valoracion;
 import com.marketplace.valoracion.repository.ValoracionRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,43 +17,52 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ValoracionService {
 
-    @Autowired
     private final ValoracionRepository valoracionRepository;
 
-    private ValoracionResponseDTO makeToValoracionResponseDTO(Valoracion valoracion){
+    private ValoracionResponseDTO makeToValoracionResponseDTO(Valoracion valoracion) {
         return new ValoracionResponseDTO(valoracion.getId(), valoracion.getNumEstrella(), valoracion.getRecomendacion());
     }
 
-    //Listar
-    public List<ValoracionResponseDTO> findAllValoraciones(){
-        return valoracionRepository.findAll().stream().map(this::makeToValoracionResponseDTO).collect(Collectors.toList());
+    private Valoracion obtenerOFallar(long id) {
+        return valoracionRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Valoracion no encontrada con id: " + id));
     }
 
-    //Buscar
-    public ValoracionRequestDTO findValoracionById(long id) {
-        Valoracion valoracion = valoracionRepository.findById(id).get();
-        return new ValoracionRequestDTO(valoracion.getNumEstrella(), valoracion.getRecomendacion());
+    public List<ValoracionResponseDTO> findAllValoraciones() {
+        log.info("Se listan todas las valoraciones");
+        return valoracionRepository.findAll().stream()
+                .map(this::makeToValoracionResponseDTO)
+                .collect(Collectors.toList());
     }
-    //Actualizar
-    public ValoracionResponseDTO updateValoracion(long id, ValoracionRequestDTO updateValoracion){
-        Valoracion valoracion = valoracionRepository.findById(id).get();
+
+    public ValoracionResponseDTO findValoracionById(long id) {
+        log.info("Se busca valoracion con id: {}", id);
+        return makeToValoracionResponseDTO(obtenerOFallar(id));
+    }
+
+    public ValoracionResponseDTO makeValoracion(ValoracionRequestDTO newValoracion) {
+        log.info("Se inicia la creación de valoracion con {} estrellas", newValoracion.getNumEstrella());
+        Valoracion valoracion = new Valoracion();
+        valoracion.setNumEstrella(newValoracion.getNumEstrella());
+        valoracion.setRecomendacion(newValoracion.getRecomendacion());
+        valoracion = valoracionRepository.save(valoracion);
+        return makeToValoracionResponseDTO(valoracion);
+    }
+
+    public ValoracionResponseDTO updateValoracion(long id, ValoracionRequestDTO updateValoracion) {
+        log.info("Se actualiza valoracion con id: {}", id);
+        Valoracion valoracion = obtenerOFallar(id);
+        valoracion.setNumEstrella(updateValoracion.getNumEstrella());
         valoracion.setRecomendacion(updateValoracion.getRecomendacion());
         valoracion = valoracionRepository.save(valoracion);
-        return new ValoracionResponseDTO(valoracion.getId(),valoracion.getNumEstrella(), valoracion.getRecomendacion());
+        return makeToValoracionResponseDTO(valoracion);
     }
 
-    //Crear
-    public ValoracionResponseDTO makeValoracion(ValoracionRequestDTO newValoracion){
-        Valoracion valoracion = new Valoracion(0, newValoracion.getNumEstrella(), newValoracion.getRecomendacion());
-        valoracion = valoracionRepository.save(valoracion);
-        return new ValoracionResponseDTO(valoracion.getId(), valoracion.getNumEstrella(), valoracion.getRecomendacion());
-    }
-
-    //Eliminar
     public void deleteValoracion(long id) {
-        Valoracion valoracion = valoracionRepository.findById(id).get();
-        valoracionRepository.delete(valoracion);
+        log.info("Se elimina valoracion con id: {}", id);
+        valoracionRepository.delete(obtenerOFallar(id));
     }
 }
