@@ -52,11 +52,11 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
                         // Puerta abierta para Login y Registro
-                        .requestMatchers("/api/usuarios/login", "/api/usuarios/registrar").permitAll()
+                        .requestMatchers("/api/usuario/login", "/api/usuario/registrar").permitAll()
 
                         // Solo los ADMIN pueden ver la lista completa o borrar usuarios
-                        .requestMatchers(HttpMethod.GET, "/api/usuarios").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/api/usuarios/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/usuario").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/usuario/**").hasRole("ADMIN")
 
                         // Cualquier otra cosa (como ver el propio perfil) requiere estar logueado
                         .anyRequest().authenticated())
