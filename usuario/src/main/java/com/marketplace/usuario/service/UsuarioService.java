@@ -5,6 +5,7 @@ import com.marketplace.usuario.dto.UsuarioResponseDTO;
 import com.marketplace.usuario.model.Usuario;
 import com.marketplace.usuario.repository.UsuarioRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -70,5 +71,12 @@ public class UsuarioService {
         res.setActivo(u.isActivo());
         // No mapeamos el password aquí por seguridad
         return res;
+    }
+
+    public void eliminar(Long id) {
+    }
+
+    public @Nullable UsuarioResponseDTO actualizar(Long id, UsuarioRequestDTO dto) {
+        return null;
     }
 }
