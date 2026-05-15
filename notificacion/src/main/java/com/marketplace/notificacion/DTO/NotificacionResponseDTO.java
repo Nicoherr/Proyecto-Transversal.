@@ -15,7 +15,7 @@ public class NotificacionResponseDTO {
     //Usamos lo mismo de la clase Reporte pero sin la notaciones JPA y sin @Entity y @Table.
     private long id = 0;
 
-    @NotBlank(message = "El asunto deve estar descrito")
+    @NotBlank(message = "El asunto debe estar descrito")
     private String asunto;
 
     @NotBlank(message = "El mensaje no puede estar vacio")

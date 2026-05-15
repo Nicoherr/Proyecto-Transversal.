@@ -16,6 +16,7 @@ public class CarritoProducto {
     private Long id;
 
     @Column(name = "carrito_id", nullable = false)
+    @ManyToOne
     private Long carritoId;
 
     @Column(name = "producto_id", nullable = false)

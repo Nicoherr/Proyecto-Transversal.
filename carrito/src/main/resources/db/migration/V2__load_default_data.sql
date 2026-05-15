@@ -1,0 +1,1 @@
+INSERT INTO `marketplace_carrito`.`carrito` (`active`, `email`, `password`, `role`) VALUES (b'1', 'dan.aliante@duocuc.cl', '$2b$12$okPQajXIw4Qv4l/ZADKMg.p5oLNapMJZv946hp9qm6o3Nfgxs8uXO', 'ADMIN');
